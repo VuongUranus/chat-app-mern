@@ -49,7 +49,7 @@ function Register() {
         navigate("/")
       }
     }
-  };
+  }
 
   const handleValidation = ()=>{
     const {password,confirmPassword,username,email} = values;

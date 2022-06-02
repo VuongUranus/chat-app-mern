@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+  server:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    image: chatapp_server
+    container_name: chatapp_node_server
+    volumes:
+      - ./server/:/usr/app/server
+      - /usr/app/server/node_modules
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    env_file:
+      - ./server/.env
+    networks:
+      - app-network
+  mongo:
+    image: mongo
+    volumes:
+      - data-volumes:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+  client:
+    build: 
+      context: ./public
+      dockerfile: Dockerfile
+    image: chatapp_client
+    container_name: chatapp_react_client
+    volumes:
+      - ./public/:/usr/app/client
+      - /usr/app/client/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  data-volumes:
+  node_modules:
+  web-root:
+    driver: local

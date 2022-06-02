@@ -22,7 +22,7 @@ const server = app.listen(process.env.PORT,()=> console.log(`Server Started on p
 
 const io = socket(server,{
     cors:{
-        origin: "http://localhost:3000",
+        origin: "http://client",
         credentials: true
     }
 })
